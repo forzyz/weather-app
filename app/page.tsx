@@ -7,10 +7,38 @@ import CurrentData from "./component/CurrentData";
 import WeekForecast from "./component/WeekForecast";
 import WeatherDetails from "./component/WeatherDetails";
 
+type CurrentProps = {
+  data: {
+    current: {
+      condition: {
+        icon: string;
+        text: string;
+      };
+      is_day: number;
+      temp_c: number;
+    };
+    location: {
+      name: string;
+      region: string;
+    };
+    forecast: {
+      forecastday: [
+        {
+          day: {
+            daily_chance_of_rain: number;
+          };
+        }
+      ];
+    };
+  };
+};
+
 const Home = () => {
   const [data, setData] = useState({});
   const [location, setLocation] = useState("");
   const [error, setError] = useState("");
+  const [tempScale, setTempScale] = useState("C");
+  const [dayMode, setDayMode] = useState(false);
 
   const url = `http://api.weatherapi.com/v1/forecast.json?key=8ef2f4e6d12643c1baf161027230110&q=${location}&days=7&aqi=yes&alerts=yes`;
 
@@ -35,51 +63,103 @@ const Home = () => {
     }
   };
 
-  let content;
+  let leftContent;
+  let rightContent;
   if (Object.keys(data).length === 0 && error === "") {
-    content = (
+    leftContent = (
       <div>
-        <h2>Welcome to the weather app</h2>
+        <h2>Welcome to the weather app!</h2>
       </div>
     );
   } else if (error !== "") {
-    content = (
+    leftContent = (
       <div>
         <p>City not found</p>
         <p>Enter a Valid City</p>
       </div>
     );
   } else {
-    content = (
+    leftContent = (
       <>
-        <div>
+        <div className="h-full">
           <CurrentData data={data} />
-          <WeekForecast />
+        </div>
+      </>
+    );
+    rightContent = (
+      <div className="p-4">
+        <div className="flex justify-between mb-10">
+          <div className="flex gap-3">
+            <button
+              onClick={() => setDayMode(true)}
+              className={
+                dayMode ? "transition ease-in duration-300 border-b-2 border-black" : ""
+              }
+            >
+              Today
+            </button>
+            <button
+              onClick={() => setDayMode(false)}
+              className={
+                !dayMode ? "transition ease-in duration-300 border-b-2 border-black" : ""
+              }
+            >
+              Week
+            </button>
+          </div>
+          <div className="flex gap-5">
+            <button
+              onClick={() => setTempScale("C")}
+              className={
+                tempScale === "C"
+                  ? "transition ease-in rounded-full bg-black hover:bg-slate-900 text-white w-8 p-1.5"
+                  : "transition ease-in rounded-full bg-white hover:bg-slate-100 w-8 p-1.5"
+              }
+            >
+              °C
+            </button>
+            <button
+              onClick={() => setTempScale("F")}
+              className={
+                tempScale === "F"
+                  ? "transition ease-in rounded-full bg-black hover:bg-slate-900 text-white w-8 p-1.5"
+                  : "transition ease-in rounded-full bg-white hover:bg-slate-100 w-8 p-1.5"
+              }
+            >
+              °F
+            </button>
+          </div>
+        </div>
+        <div className="flex items-center">
+          <WeekForecast data={data} />
         </div>
         <div>
           <WeatherDetails />
         </div>
-      </>
+      </div>
     );
   }
 
   return (
-    <div className="flex bg-cover bg-slate-300 h-screen">
-      <div className="bg-slate-200 rounded-lg flex self-center m-auto w-11/12 h-5/6">
+    <div
+      className={`flex flex-1 bg-cover bg-slate-300 p-4 lg:p-0 ${
+        rightContent ? "h-fit md:h-fit md:p-10 lg:h-screen" : "h-screen"
+      }`}
+    >
+      <div className="bg-slate-200 rounded-lg flex flex-col md:flex-row lg:flex-row self-center m-auto w-11/12 h-5/6">
         {/* Left side */}
-        <div className="rounded-lg bg-white w-1/4">
-          <div className="flex flex-col p-6">
+        <div className="rounded-lg bg-white w-full md:w-2/4 lg:w-1/4 h-full">
+          <div className="flex flex-col p-6 h-full">
             <Input
               handleSearch={handleSearch}
               location={location}
               setLocation={setLocation}
             />
-            {content}
-            <h1>Day</h1>
+            {leftContent}
           </div>
         </div>
         {/* Right side */}
-        <div></div>
+        <div className="p-5 w-full md:w-9/12 lg:w-9/12">{rightContent}</div>
       </div>
     </div>
   );

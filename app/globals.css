@@ -2,3 +2,10 @@
 @tailwind components;
 @tailwind utilities;
 
+.celsium::after {
+    content: "℃";
+    font-size: 0.8em;
+    position: relative;
+    top: -0.5em;
+}
+
