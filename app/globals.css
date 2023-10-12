@@ -3,9 +3,47 @@
 @tailwind utilities;
 
 .celsium::after {
-    content: "℃";
-    font-size: 0.8em;
-    position: relative;
-    top: -0.5em;
+  content: "℃";
+  font-size: 0.8em;
+  position: relative;
+  top: -0.5em;
 }
 
+.ml-300 {
+  margin-left: 0px;
+}
+
+@media (min-width: 839px) {
+  .ml-300 {
+    margin-left: -300px !important;
+  }
+}
+@media (min-width: 768px) {
+  .ml-300 {
+    margin-left: -280px !important;
+  }
+}
+@media (min-width: 920px) {
+  .ml-300 {
+    margin-left: -300px !important;
+    margin-top: 50px;
+  }
+}
+@media (min-width: 930px) {
+  .ml-300 {
+    margin-left: 0px;
+  }
+}
+
+@media (min-width: 1023px) {
+  .ml-300 {
+    margin-top: 0;
+    margin-left: 0px !important;
+  }
+}
+
+@media (min-width: 810px) {
+  .ml-300 {
+    margin-left: 0px;
+  }
+}

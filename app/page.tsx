@@ -6,10 +6,18 @@ import Input from "./component/Input";
 import CurrentData from "./component/CurrentData";
 import WeekForecast from "./component/WeekForecast";
 import WeatherDetails from "./component/WeatherDetails";
+import { DayForecast } from "./utils/DayForecast";
 
-type CurrentProps = {
+type PageProps = {
   data: {
     current: {
+      uv: number;
+      wind_kph: number;
+      humidity: number;
+      vis_km: number;
+      air_quality: {
+        ["us-epa-index"]: number;
+      };
       condition: {
         icon: string;
         text: string;
@@ -22,19 +30,14 @@ type CurrentProps = {
       region: string;
     };
     forecast: {
-      forecastday: [
-        {
-          day: {
-            daily_chance_of_rain: number;
-          };
-        }
-      ];
+      forecastday: DayForecast[];
     };
   };
 };
 
 const Home = () => {
-  const [data, setData] = useState({});
+  const [data, setData] = useState<PageProps["data"] | null>(null);
+
   const [location, setLocation] = useState("");
   const [error, setError] = useState("");
   const [tempScale, setTempScale] = useState("C");
@@ -58,17 +61,18 @@ const Home = () => {
         setError("");
       } catch (error) {
         setError("City not found");
-        setData({});
+        setData(null);
       }
     }
   };
 
   let leftContent;
   let rightContent;
-  if (Object.keys(data).length === 0 && error === "") {
+  if (data === null && error === "") {
     leftContent = (
       <div>
         <h2>Welcome to the weather app!</h2>
+        <p>Enter a city to get the weather.</p>
       </div>
     );
   } else if (error !== "") {
@@ -81,9 +85,7 @@ const Home = () => {
   } else {
     leftContent = (
       <>
-        <div className="h-full">
-          <CurrentData data={data} />
-        </div>
+        <div className="h-full">{data && <CurrentData data={data} />}</div>
       </>
     );
     rightContent = (
@@ -93,7 +95,9 @@ const Home = () => {
             <button
               onClick={() => setDayMode(true)}
               className={
-                dayMode ? "transition ease-in duration-300 border-b-2 border-black" : ""
+                dayMode
+                  ? "transition ease-in duration-300 border-b-2 border-black"
+                  : "text-slate-400"
               }
             >
               Today
@@ -101,7 +105,9 @@ const Home = () => {
             <button
               onClick={() => setDayMode(false)}
               className={
-                !dayMode ? "transition ease-in duration-300 border-b-2 border-black" : ""
+                !dayMode
+                  ? "transition ease-in duration-300 border-b-2 border-black"
+                  : "text-slate-400"
               }
             >
               Week
@@ -131,24 +137,22 @@ const Home = () => {
           </div>
         </div>
         <div className="flex items-center">
-          <WeekForecast data={data} />
+          {data && <WeekForecast data={data} />}
         </div>
-        <div>
-          <WeatherDetails />
-        </div>
+        <div>{data && <WeatherDetails data={data} />}</div>
       </div>
     );
   }
 
   return (
     <div
-      className={`flex flex-1 bg-cover bg-slate-300 p-4 lg:p-0 ${
-        rightContent ? "h-fit md:h-fit md:p-10 lg:h-screen" : "h-screen"
+      className={`flex flex-1 bg-cover bg-slate-300 p-4 ${
+        rightContent ? "h-fit md:h-fit md:p-10 lg:h-fit" : "h-screen"
       }`}
     >
       <div className="bg-slate-200 rounded-lg flex flex-col md:flex-row lg:flex-row self-center m-auto w-11/12 h-5/6">
         {/* Left side */}
-        <div className="rounded-lg bg-white w-full md:w-2/4 lg:w-1/4 h-full">
+        <div className="rounded-lg bg-white w-full md:w-2/4 lg:w-1/4 h-fit lg:h-auto">
           <div className="flex flex-col p-6 h-full">
             <Input
               handleSearch={handleSearch}

@@ -1,16 +1,5 @@
 import Image from "next/image";
-
-type DayForecast = {
-  date: string;
-  day: {
-    condition: {
-      icon: string;
-      text: string;
-    };
-    maxtemp_c: number;
-    mintemp_c: number;
-  };
-};
+import { DayForecast } from "../utils/DayForecast";
 
 type WeekForecastProps = {
   data: {
@@ -26,7 +15,7 @@ const WeekForecast = ({ data }: WeekForecastProps) => {
       {data.forecast.forecastday.map((day, index) => (
         <div
           key={index}
-          className="bg-white/40 p-6 text-center rounded-lg flex flex-col items-center"
+          className="bg-white p-6 text-center rounded-lg flex flex-col items-center"
         >
           <p>
             {new Date(day.date).toLocaleString("en-US", { weekday: "short" })}

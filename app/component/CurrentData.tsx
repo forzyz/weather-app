@@ -1,8 +1,9 @@
 import Image from "next/image";
 import { getCurrentDate } from "../utils/currentDate";
-import { getCurrentIcon } from "../utils/getCurrentIcon";
+import { getCurrentIcon } from "../utils/currentIcon";
 import { getCurrentTime } from "../utils/currentTime";
 import { MdLocationOn } from "react-icons/md";
+import { DayForecast } from "../utils/DayForecast";
 
 type CurrentProps = {
   data: {
@@ -19,13 +20,7 @@ type CurrentProps = {
       region: string;
     };
     forecast: {
-      forecastday: [
-        {
-          day: {
-            daily_chance_of_rain: number;
-          };
-        }
-      ];
+      forecastday: DayForecast[];
     };
   };
 };
