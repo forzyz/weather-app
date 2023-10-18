@@ -43,7 +43,7 @@ const Home = () => {
   const [tempScale, setTempScale] = useState("C");
   const [dayMode, setDayMode] = useState(false);
 
-  const url = `http://api.weatherapi.com/v1/forecast.json?key=8ef2f4e6d12643c1baf161027230110&q=${location}&days=10&aqi=yes&alerts=yes`;
+  const url = `https://api.weatherapi.com/v1/forecast.json?key=8ef2f4e6d12643c1baf161027230110&q=${location}&days=10&aqi=yes&alerts=yes`;
 
   const handleSearch = async (
     e: React.KeyboardEvent<HTMLInputElement> | KeyboardEvent
