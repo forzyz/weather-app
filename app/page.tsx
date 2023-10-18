@@ -6,7 +6,7 @@ import Input from "./component/Input";
 import CurrentData from "./component/CurrentData";
 import WeekForecast from "./component/WeekForecast";
 import WeatherDetails from "./component/WeatherDetails";
-import { DayForecast } from "./utils/Types/DayForecast";
+import DayForecast from "./component/DayForecast";
 
 type PageProps = {
   data: {
@@ -24,6 +24,7 @@ type PageProps = {
       };
       is_day: number;
       temp_c: number;
+      temp_f: number
     };
     location: {
       name: string;
@@ -84,7 +85,9 @@ const Home = () => {
   } else {
     leftContent = (
       <>
-        <div className="h-full flex items-center">{data && <CurrentData data={data} />}</div>
+        <div className="h-full flex">
+          {data && <CurrentData data={data} tempScale={tempScale} />}
+        </div>
       </>
     );
     rightContent = (
@@ -99,7 +102,7 @@ const Home = () => {
                   : "text-slate-400"
               }
             >
-              Today
+              Day
             </button>
             <button
               onClick={() => setDayMode(false)}
@@ -136,7 +139,13 @@ const Home = () => {
           </div>
         </div>
         <div className="flex items-center">
-          {data && <WeekForecast data={data} />}
+          {data ? (
+            dayMode ? (
+              <DayForecast data={data} tempScale={tempScale}/>
+            ) : (
+              <WeekForecast data={data} tempScale={tempScale} />
+            )
+          ) : undefined}
         </div>
         <div>{data && <WeatherDetails data={data} />}</div>
       </div>
@@ -151,7 +160,11 @@ const Home = () => {
     >
       <div className="bg-slate-200 rounded-lg flex flex-col md:flex-row lg:flex-row self-center m-auto w-11/12 h-5/6">
         {/* Left side */}
-        <div className="rounded-lg bg-white w-full md:w-2/4 lg:w-1/4 h-fit lg:h-auto">
+        <div
+          className={`rounded-lg bg-white w-full md:w-2/4 lg:w-1/4 ${
+            leftContent ? "h-full" : "h-fit"
+          } lg:h-auto`}
+        >
           <div className="flex flex-col p-6 h-full mt-4">
             <Input
               handleSearch={handleSearch}

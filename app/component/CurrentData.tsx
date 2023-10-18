@@ -14,6 +14,7 @@ type CurrentProps = {
       };
       is_day: number;
       temp_c: number;
+      temp_f: number;
     };
     location: {
       name: string;
@@ -23,9 +24,10 @@ type CurrentProps = {
       forecastday: DayForecast[];
     };
   };
+  tempScale: string
 };
 
-const CurrentData = ({ data }: CurrentProps) => {
+const CurrentData = ({ data, tempScale }: CurrentProps) => {
   const currentDate = getCurrentDate();
   const currentTime = getCurrentTime();
   const weatherText = data.current.condition.text;
@@ -48,7 +50,7 @@ const CurrentData = ({ data }: CurrentProps) => {
       <div className="w-11/12">
         <div className="flex items-center">
           <div className="mt-5 text-5xl">
-            <p className="celsium">{data.current.temp_c}</p>
+            <p className={`${tempScale === 'C' ? "celsium" : "fahrenheit"}`}>{tempScale === "C" ? data.current.temp_c : data.current.temp_f}</p>
           </div>
         </div>
         <div className="py-5">

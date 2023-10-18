@@ -8,9 +8,10 @@ type WeekForecastProps = {
       forecastday: DayForecast[];
     };
   };
+  tempScale: string
 };
 
-const WeekForecast = ({ data }: WeekForecastProps) => {
+const WeekForecast = ({ data, tempScale }: WeekForecastProps) => {
   return (
     <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-7 gap-3 w-full mb-10">
       {data.forecast.forecastday.map((day, index) => {
@@ -32,8 +33,8 @@ const WeekForecast = ({ data }: WeekForecastProps) => {
               alt={day.day.condition.text}
             />
             <div className="flex gap-1">
-              <p>{day.day.maxtemp_c.toFixed()}°</p>
-              <p>{day.day.mintemp_c.toFixed()}°</p>
+              <p>{tempScale === "C" ? day.day.maxtemp_c.toFixed() : day.day.maxtemp_f.toFixed()}°</p>
+              <p>{tempScale === "C" ? day.day.mintemp_c.toFixed() : day.day.mintemp_f.toFixed()}°</p>
             </div>
           </div>
         );

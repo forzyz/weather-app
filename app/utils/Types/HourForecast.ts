@@ -1,3 +1,8 @@
 export type HourForecast = {
-    time: string
+    time: string;
+    temp_c: number;
+    temp_f: number;
+    condition: {
+        text: string;
+    }
 }
