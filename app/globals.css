@@ -23,7 +23,7 @@
     margin-left: -280px !important;
   }
 }
-@media (min-width: 920px) {
+@media (min-width: 867px) {
   .ml-300 {
     margin-left: -300px !important;
     margin-top: 50px;

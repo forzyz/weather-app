@@ -10,8 +10,12 @@ export const getCurrentIcon = (weatherText: string, isDay: number) => {
       return "/assets/cloud/12.png";
     case weatherText === "Scattered Thunderstorms" && isDay === 0:
       return "/assets/moon/20.png";
-    case weatherText === "Showers" && isDay === 1:
+    case weatherText.includes("showers") && isDay === 1:
       return "/assets/rain/39.png";
+    case weatherText.includes("rain") && isDay === 1:
+      return "/assets/sun/8.png";
+    case weatherText.includes("rain") && isDay === 0:
+      return "/assets/moon/1.png";
     case weatherText === "Rain and Snow" && isDay === 0:
       return "/assets/moon/21.png";
     case weatherText === "Rain and Snow" && isDay === 1:
@@ -35,9 +39,9 @@ export const getCurrentIcon = (weatherText: string, isDay: number) => {
       return "/assets/moon/15.png";
     case weatherText === "Partly cloudy" && isDay === 1:
       return "/assets/sun/27.png";
-    case (weatherText === "Mist" || weatherText === "Fog" ) && isDay === 0:
+    case (weatherText === "Mist" || weatherText === "Fog") && isDay === 0:
       return "/assets/moon/14.png";
-    case (weatherText === "Mist" || weatherText === "Fog" ) && isDay === 1:
+    case (weatherText === "Mist" || weatherText === "Fog") && isDay === 1:
       return "/assets/sun/4.png";
   }
 

@@ -6,7 +6,7 @@ import Input from "./component/Input";
 import CurrentData from "./component/CurrentData";
 import WeekForecast from "./component/WeekForecast";
 import WeatherDetails from "./component/WeatherDetails";
-import { DayForecast } from "./utils/DayForecast";
+import { DayForecast } from "./utils/Types/DayForecast";
 
 type PageProps = {
   data: {
@@ -37,13 +37,12 @@ type PageProps = {
 
 const Home = () => {
   const [data, setData] = useState<PageProps["data"] | null>(null);
-
   const [location, setLocation] = useState("");
   const [error, setError] = useState("");
   const [tempScale, setTempScale] = useState("C");
   const [dayMode, setDayMode] = useState(false);
 
-  const url = `http://api.weatherapi.com/v1/forecast.json?key=8ef2f4e6d12643c1baf161027230110&q=${location}&days=7&aqi=yes&alerts=yes`;
+  const url = `http://api.weatherapi.com/v1/forecast.json?key=8ef2f4e6d12643c1baf161027230110&q=${location}&days=10&aqi=yes&alerts=yes`;
 
   const handleSearch = async (
     e: React.KeyboardEvent<HTMLInputElement> | KeyboardEvent
@@ -85,7 +84,7 @@ const Home = () => {
   } else {
     leftContent = (
       <>
-        <div className="h-full">{data && <CurrentData data={data} />}</div>
+        <div className="h-full flex items-center">{data && <CurrentData data={data} />}</div>
       </>
     );
     rightContent = (
@@ -153,7 +152,7 @@ const Home = () => {
       <div className="bg-slate-200 rounded-lg flex flex-col md:flex-row lg:flex-row self-center m-auto w-11/12 h-5/6">
         {/* Left side */}
         <div className="rounded-lg bg-white w-full md:w-2/4 lg:w-1/4 h-fit lg:h-auto">
-          <div className="flex flex-col p-6 h-full">
+          <div className="flex flex-col p-6 h-full mt-4">
             <Input
               handleSearch={handleSearch}
               location={location}

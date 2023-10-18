@@ -2,7 +2,7 @@ import Image from "next/image";
 import { getHumidityLevel } from "../utils/humidityLevel";
 import { getVisibilityLevel } from "../utils/visibilityLevel";
 import { getAirQualityLevel } from "../utils/airQualityLevel";
-import { DayForecast } from "../utils/DayForecast";
+import { DayForecast } from "../utils/Types/DayForecast";
 
 type WeatherDetailsProps = {
   data: {
