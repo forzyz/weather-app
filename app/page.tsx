@@ -155,10 +155,10 @@ const Home = () => {
   return (
     <div
       className={`flex flex-1 bg-cover bg-slate-300 p-4 ${
-        rightContent ? "h-fit md:h-fit md:p-10 lg:h-fit" : "h-screen"
+        rightContent ? "h-fit md:h-fit md:p-10 lg:h-screen" : "h-screen"
       }`}
     >
-      <div className="bg-slate-200 rounded-lg flex flex-col md:flex-row lg:flex-row self-center m-auto w-11/12 h-5/6">
+      <div className={`bg-slate-200 rounded-lg flex flex-col md:flex-row lg:flex-row self-center m-auto w-11/12 ${!rightContent && `h-5/6`}`}>
         {/* Left side */}
         <div
           className={`rounded-lg bg-white w-full md:w-2/4 lg:w-1/4 ${
