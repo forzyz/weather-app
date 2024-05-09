@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 
 import Image from "next/image";
 import Input from "./component/Input";
@@ -24,7 +24,7 @@ type PageProps = {
       };
       is_day: number;
       temp_c: number;
-      temp_f: number
+      temp_f: number;
     };
     location: {
       name: string;
@@ -37,6 +37,24 @@ type PageProps = {
 };
 
 const Home = () => {
+
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    const handleResize = () => {
+      setIsMobile(window.innerWidth <= 768); // Adjust the threshold as needed
+    };
+
+    handleResize(); // Initial check
+
+    window.addEventListener("resize", handleResize);
+
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
+  }, []);
+
+
   const [data, setData] = useState<PageProps["data"] | null>(null);
   const [location, setLocation] = useState("");
   const [error, setError] = useState("");
@@ -141,7 +159,7 @@ const Home = () => {
         <div className="flex items-center">
           {data ? (
             dayMode ? (
-              <DayForecast data={data} tempScale={tempScale}/>
+              <DayForecast data={data} tempScale={tempScale} />
             ) : (
               <WeekForecast data={data} tempScale={tempScale} />
             )
@@ -158,7 +176,11 @@ const Home = () => {
         rightContent ? "h-fit md:h-fit md:p-10 lg:h-screen" : "h-screen"
       }`}
     >
-      <div className={`bg-slate-200 rounded-lg flex flex-col md:flex-row lg:flex-row self-center m-auto w-11/12 ${!rightContent && `h-5/6`}`}>
+      <div
+        className={`bg-slate-200 rounded-lg flex flex-col md:flex-row lg:flex-row self-center m-auto w-11/12 ${
+          !rightContent && `h-5/6`
+        }`}
+      >
         {/* Left side */}
         <div
           className={`bg-white w-full md:w-2/4 lg:w-1/4 ${
@@ -175,7 +197,13 @@ const Home = () => {
           </div>
         </div>
         {/* Right side */}
-        <div className="p-5 w-full md:w-9/12 lg:w-9/12">{rightContent}</div>
+        <div
+          className={`p-5 w-full md:w-9/12 lg:w-9/12 ${
+            isMobile ? "bg-white" : ""
+          }`}
+        >
+          {rightContent}
+        </div>
       </div>
     </div>
   );
